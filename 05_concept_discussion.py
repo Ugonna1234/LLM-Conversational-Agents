@@ -1,5 +1,5 @@
 
-from pyautogen import ConversableAgent
+from autogen import ConversableAgent
 from config import *
 from rag_retriever import use_rag
 open_logs("concept_discussion")
