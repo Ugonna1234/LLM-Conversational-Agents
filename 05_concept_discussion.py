@@ -1,4 +1,3 @@
-import autogen
 from autogen import ConversableAgent
 from config import *
 from rag_retriever import use_rag
@@ -9,12 +8,12 @@ open_logs("concept_discussion")
 # Similar to script 2 and 3, but this time the questions are asked dinamically by another agent.
 
 # RAG Parameters
-question = "What is the list of building program?"
-embeddings_json= "../LLM-Knowledge-Pool-RAG/knowledge_pool/Competition_brief.json"
+question = "What is the current state of service at the restaurant?"
+embeddings_json= r"C:\Users\ohakimu\OneDrive - Perkins and Will\Desktop\IAAC\Semester 3\Gen AI\LLM\LLM-Knowledge-Pool-RAG\knowledge_pool\most_reviewed_business_reviews.json"
 num_results = 10
 
 # Define the agents involved in the conversation
-intern = ConversableAgent(name="creative director",
+creative_director = ConversableAgent(name="creative director",
                        description="Provides guidance on restaurant concepts and improvements",
                        system_message=""" 
                        You are the creative director of a top restaurant chain.
@@ -25,13 +24,13 @@ intern = ConversableAgent(name="creative director",
                        is_termination_msg = lambda msg: msg.get("content") is not None
                         and "100%" in msg["content"],
                        llm_config={
-                           "config_list": gpt4_turbo,
+                           "config_list": mistral_7b,
                            "temperature": 0.9,
                        },
                        code_execution_config=False,
                        )
 
-jury= ConversableAgent(name="restaurant consultant",
+restaurant_consultant= ConversableAgent(name="restaurant consultant",
                        description="Reviews suggestions and restaurant improvements",
                        system_message="""
                        Your role is to provide insights and suggestions for improving the restaurant.
@@ -46,7 +45,7 @@ jury= ConversableAgent(name="restaurant consultant",
                         and "100%" in msg["content"],
                         # human_input_mode="ALWAYS",
                        llm_config={
-                           "config_list": gpt4_turbo,
+                           "config_list": mistral_7b,
                            "temperature": 0.9,
                        })
 
@@ -54,10 +53,10 @@ jury= ConversableAgent(name="restaurant consultant",
 rag_result= use_rag(question, embeddings_json, num_results)
 
 # Start the conversation
-chat_result= jury.initiate_chats(
+chat_result= restaurant_consultant.initiate_chats(
     [
         {
-            "recipient": intern,
+            "recipient": creative_director,
             "message": f"""
                 **design context information**: 
                 {rag_result}

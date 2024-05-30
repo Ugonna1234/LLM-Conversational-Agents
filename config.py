@@ -78,6 +78,14 @@ gpt4o = [
         }
 ]
 
+gpt3_turbo = [#more like 3.5
+        {
+            "model": "gpt-3.5-turbo",
+            "api_key": OPENAI_API_KEY,
+            "cache_seed": random.randint(0, 100000),
+        }
+]
+
 westlake = [
         {
             "model": "TheBloke/WestLake-7B-v2-GGUF",
