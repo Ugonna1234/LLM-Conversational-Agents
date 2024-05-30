@@ -14,11 +14,12 @@ embeddings_json= "../LLM-Knowledge-Pool-RAG/knowledge_pool/Competition_brief.jso
 num_results = 10
 
 # Define the agents involved in the conversation
-intern = ConversableAgent(name="intern",
-                       description="Creates concepts for building design proposals and answers questions about them",
+intern = ConversableAgent(name="creative director",
+                       description="Provides guidance on restaurant concepts and improvements",
                        system_message=""" 
-                       You are an intern at a major architecture firm. 
-                       Your goal is to come up with 3 imaginative and very different short concepts for building designs that the jury is happy with. 
+                       You are the creative director of a top restaurant chain.
+                       Your role is to evaluate the current state of the restaurants and propose innovative concepts for improvement.
+                       You will engage in a conversation with the restaurant consultant to discuss potential improvements. 
                        For each, come up a short paragraph describing the concept in a very poetic and imaginative way.
                        """,
                        is_termination_msg = lambda msg: msg.get("content") is not None
@@ -30,14 +31,15 @@ intern = ConversableAgent(name="intern",
                        code_execution_config=False,
                        )
 
-jury= ConversableAgent(name="jury",
-                       description="Reviews design concepts",
+jury= ConversableAgent(name="restaurant consultant",
+                       description="Reviews suggestions and restaurant improvements",
                        system_message="""
-                       Your are a jury in the selection panel for an architecture competition and your role is to review design concepts.
+                       Your role is to provide insights and suggestions for improving the restaurant.
+                       You will engage in a conversation with the creative director to discuss the current state of the restaurants and propose concepts for improvement.
                        You will follow this subtasks:
-                       1. Think about the concept and make three questions that will expose additional detail about the design and architecture of the concept.
-                       2. Classify between 0 and 100% how much the given concept answers your questions clearly and is related to the design context information.
-                       You will always ask new questions about the concept to the intern until you are satisfied with the concept.
+                       1. Think about the concept and make three questions that will expose additional detail about the concept.
+                       2. Classify between 0 and 100% how much the given concept answers your questions clearly and is related to the restaurant context information.
+                       You will always ask new questions about the concept to the creative director until you are satisfied with the concept.
                        If you are satisfied, simply answer "100%"
                        """,
                        is_termination_msg = lambda msg: msg.get("content") is not None
@@ -60,8 +62,8 @@ chat_result= jury.initiate_chats(
                 **design context information**: 
                 {rag_result}
                 ----
-                Lets develop an idea for the design. 
-                What should be the concepts for the architecture of our building?
+                Lets develop an idea for the restaurant. 
+                What should be the concepts for the restaurant?
                 """,
             "summary_method": "reflection_with_llm",
         },

@@ -7,8 +7,8 @@ open_logs("concept_generator")
 # Choose between "local" or "openai" mode in config.py
 
 # RAG Parameters
-question = "What is the list of building program?"
-embeddings_json= r"C:\Users\ohakimu\OneDrive - Perkins and Will\Desktop\IAAC\Semester 3\Gen AI\LLM\LLM-Knowledge-Pool-RAG\knowledge_pool\Competition_brief.json"
+question = "What are 10 areas for improvement in the restaurant?"
+embeddings_json= r"C:\Users\ohakimu\OneDrive - Perkins and Will\Desktop\IAAC\Semester 3\Gen AI\LLM\LLM-Knowledge-Pool-RAG\knowledge_pool\most_reviewed_business_reviews.json"
 num_results = 100
 
 def generate_concept(rag_result: str)-> str:
@@ -17,18 +17,19 @@ def generate_concept(rag_result: str)-> str:
         messages=[
             {
                 "role": "system",
-                "content": """You are an intern at a major architecture firm. 
-                       Your goal is to come up with 5 imaginative and very different short concepts for building designs that the jury is happy with. 
-                       For each, come up a short paragraph describing the concept in a very poetic and imaginative way.
+                "content": """You are the creative director of a top restaurant chain.
+                       Your goal is to propose 5 innovative and exciting changes or improvements to the restaurant experience. 
+                       For each, provide a brief description of the concept, focusing on its uniqueness and appeal.
                        """,
             },
             {
                 "role": "user",
-                "content": f"""Come up with 5 short concepts for building designs. The concepts should be very different from each other. 
+                "content": f"""Propose 5 imaginative concepts for improving the restaurant. Each concept should be distinctive and captivating. 
                 Use the following information as a starting point:
                 {rag_result}""",
             },
         ],
+        #max_tokens=50 #Set the maximum number of tokens for each response
     )
     return response.choices[0].message.content
 

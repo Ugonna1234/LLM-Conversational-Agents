@@ -5,11 +5,11 @@ open_logs("concept_tasks")
 # README: This script uses one concept you want to investigate further.
 # Choose between "local" or "openai" mode in config.py
 
-concept = """**Concept 1: Whirlwind Winter Refuge: Evoking the graceful spirals of a snowstorm caught mid-whirl, this dynamic ski cabin concept unfolds as a helix rising skyward towards towering peaks. Its spiral design maximizes functionality through compact organization – storage nestled within windings, communal area at its core encircled by changing rooms and refreshments zones spiraling outward before opening into panoramic windows capturing breathtaking alpine views. At ground level lies an interactive info point alongside a snow groomer garage completing the circular narrative of winter wonderland sheltering all within."""
+concept = """**Sensory Dining Nights: Host monthly themed events where guests are immersed in a multi-sensory dining experience. These nights may include live music performances, art installations related to the menu's theme, scents wafting through the air, or even blindfolded tastings to heighten other senses. Such unique experiences will draw attention from food enthusiasts seeking novel culinary adventures."""
 
-tasks = """ 1. First, list out the names of all interior spaces in this building.
-            2. Second, explain how they are connected and one can move from space to space across the building.
-            3. Third, describe what a visitor will see and find inside each of the spaces."""  
+tasks = """ 1. List out 5 potential themes for the sensory dining nights.
+            2. Describe 5 ways how the restaurant space could be transformed to accommodate these themed events.
+            3. Propose 5 marketing strategies to promote the sensory dining nights to potential customers."""  
 
 def question_concept(tasks: str, concept: str)-> str:
     # client = OpenAI(api_key=OPENAI_API_KEY)
@@ -19,13 +19,13 @@ def question_concept(tasks: str, concept: str)-> str:
             {
                 "role": "system",
                 "content": """ 
-                       You are a world renowed architect. You answer questions about building design concepts.""",
+                       You are a renowned restaurant consultant. You provide detailed answers to questions related to restaurant concepts and operations.""",
             },
             {
                 "role": "user",
                 "content": 
-                        f"""You are given a set of tasks and a brief summaries of a building design concept.
-                        Be imaginative and creative in your answers:
+                        f"""You are given a set of tasks and a brief summary of a restaurant concept.
+                        Provide creative and insightful answers:
                         #CONCEPTS#: {concept}
                         #TASKS#: {tasks}
                         """,
