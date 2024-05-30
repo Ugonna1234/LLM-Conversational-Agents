@@ -4,9 +4,10 @@ from keys import *
 import requests
 import base64
 import sys
+import os
 from datetime import datetime
 # Mode
-mode = "openai" # "local" or "openai"
+mode = "local" # "local" or "openai"
 
 # API
 local_client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
@@ -55,7 +56,7 @@ westlake = [
 # Notice how this model is not running locally. It uses an OpenAI key.
 gpt4_turbo = [
         {
-            "model": "gpt-4-turbo-preview",
+            "model": "gpt-4-turbo-",
             "api_key": OPENAI_API_KEY,
             "cache_seed": random.randint(0, 100000),
         }
@@ -72,6 +73,14 @@ gpt4_vision = [
 gpt4o = [
         {
             "model": "gpt-4o",
+            "api_key": OPENAI_API_KEY,
+            "cache_seed": random.randint(0, 100000),
+        }
+]
+
+westlake = [
+        {
+            "model": "TheBloke/WestLake-7B-v2-GGUF",
             "api_key": OPENAI_API_KEY,
             "cache_seed": random.randint(0, 100000),
         }
@@ -125,7 +134,7 @@ def api_mode (mode):
         client = local_client
 
         # Change the completion/vision model to whatever you want to use
-        completion_model = mistral_7b #here
+        completion_model = westlake #here
         vision_model = llava #and here
 
         # Dont change anything below
@@ -192,6 +201,9 @@ class Tee:
 def open_logs(script_name):
     sys.dont_write_bytecode = True
     current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    logs_dir = "logs"  # Added line to define the logs directory
+    if not os.path.exists(logs_dir):  # Added condition to check if logs directory exists
+       os.makedirs(logs_dir)  # Added line to create the logs directory if it doesn't exist
     logs = f"logs/{script_name}_{current_datetime}.txt"
     log_file = open(logs, "w")
     sys.stdout = Tee(sys.stdout, log_file)

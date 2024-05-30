@@ -8,7 +8,7 @@ open_logs("concept_generator")
 
 # RAG Parameters
 question = "What is the list of building program?"
-embeddings_json= "../LLM-Knowledge-Pool-RAG/knowledge_pool/Competition_brief.json"
+embeddings_json= r"C:\Users\ohakimu\OneDrive - Perkins and Will\Desktop\IAAC\Semester 3\Gen AI\LLM\LLM-Knowledge-Pool-RAG\knowledge_pool\Competition_brief.json"
 num_results = 100
 
 def generate_concept(rag_result: str)-> str:
